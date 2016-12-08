@@ -12,7 +12,7 @@ Make the following checks before performing a release:
    * Does documentation build?
 
 
-#### 2. Update VERSION and CHANGELOG and README
+#### 2. Update VERSION and CHANGELOG
 
 ##### Increment the version number.
 
@@ -33,44 +33,38 @@ Leave this as "latest" for the moment.
 The is in the [`CHANGELOG.md`](CHANGELOG.md) file. Ensure it mentions any noteworthy changes since the previous release.
 
 
-##### Update README
-
-Ensure the README reflects any changes.
-
-
-
 #### 3. Create release branch
 
 Create the branch, naming it after the release version number (just the number).
 
-#### 4. Update VERSION and `README.md` for the release branch
-
 In the branch, now modify (and commit) the VERSION file, changing "latest" to "release".
 
-In ['README.md'](README.md) change references to the "master" branch to the name
-of release branch that will be used in the next step (which will be the
-release version number). The places this occurs includes:
 
-   * the Travis CI build status image link at the beginning.
-   * The "stable" docs links at the beginning and in the docs section. Rewrite them to be named after the version number
-
-
-#### 5. Create a new release on GitHub based on the new branch
+#### 4. Create a new release on GitHub based on the new branch
 
 Put a shorter summary of the new changelog items into the release notes. Make the tag name the version number
 - the same as the branch name.
 
 
-#### 6. Check documentation builds
+#### 5. Update documentation builds on gh-pages
 
-_The old process of manually building and pushing to gh-pages is deprecated._
+Run the documentation build process to build documentation for:
 
-Docs are built automatically by readthedocs.org when the new release tag is generated. Check that the new release
-has built correctly and is classified as the "stable" build, here: https://readthedocs.org/projects/pydvbcss/
+* This new "release" branch ("new")
+* *master* branch ("latest")
 
+Note that these are slightly different (because of the 2nd line in the `VERSION` file)
 
+Checkout the [gh-pages](https://github.com/bbc/config-reader-ios/tree/gh-pages) branch and make the following commits:
 
-#### 7. Upload new package to python package index
+* replace the contents of [`docs/latest`](https://github.com/bbc/config-reader-ios/tree/gh-pages/docs/latest)
+  with the documentation build for the "latest" state of master.
+
+* put into `docs/XXXX` the documentation build for the "new" release branch, where XXXX is the version number
+
+Then push the commits up to GitHub.
+
+#### 6. Upload new pod to CocoaPod repository
 
 The process originally followed to register and setup first time was [this one](http://peterdowns.com/posts/first-time-with-pypi.html).
 
@@ -130,15 +124,7 @@ Update VERSION to mark as "release" within the branch
 
     $ vi VERSION
        .. change "latest" to "release"
-
-Update README.md to change:
-
-* travis CI build status to be specific for this version branch
-* "stable" docs links to point to this version branch specifically.
-
-Commit changes:
-
-    $ git add VERSION README.md
+    $ git add VERSION
     $ git commit -m "Version marked as release."
 
 Push branch up to github (and set local repository to track the upstream branch on origin):
@@ -148,33 +134,62 @@ Push branch up to github (and set local repository to track the upstream branch 
 
 ### 4. Create a new release on GitHub based on the new branch
 
-Now use the [new release](https://github.com/bbc/pydvbcss/releases/new) function on GitHub's web interface to
+Now use the [new release](https://github.com/bbc/config-reader-ios/releases/new) function on GitHub's web interface to
 mark the branch 'X.Y.Z' as a new release.
 
-### 5. Update documentation builds on gh-pages (deprecated)
+### 5. Update documentation builds on gh-pages
 
-Documentation is now automatically rebuilt and hosted by readthedocs.org. It
-will be picked up when the new release is tagged.
+First, build and copy the documentation for the release and stash it somewhere temporarily.
 
+    $ git status
+    On branch X.Y.Z
+    Your branch is up-to-date with 'origin/master'.
+    nothing to commit, working directory clean
 
-### 6. Upload to PyPI:
+    $ python setup.py build_sphinx
+    $ cp -R build/sphinx/html /tmp/X.Y.Z
 
-To upload, you must have [pandoc](http://pandoc.org/) installed as a command
-line tool. This is needed to convert the README from [Markdown](https://daringfireball.net/projects/markdown/)
-to [ReStructuredText](http://docutils.sourceforge.net/docs/ref/rst/introduction.html) because PyPI
-requires it.
+Now switch back to master and do the same for the latest state of master:
 
-    $ sudo apt-get install pandoc       # Debian/ubuntu Linux
-    $ sudo port install pandoc          # Mac Ports
+    $ git checkout master
+    $ python setup.py build_sphinx
+    $ cp -R build/sphinx/html tmp/latest
+
+Now switch to gh-pages and ensure it is synced with GitHub:
+
+    $ git checkout gh-pages
+    $ git pull origin gh-pages
+
+And put the new documentation builds in place:
+
+    $ cp -R /tmp/X.Y.Z docs/
+    $ git add docs/X.Y.Z
+
+    $ git rm docs/latest
+    $ cp -R /tmp/latest docs/
+    $ git add docs/latest
+
+    $ git commit -m "Updated docs for new release and latest changes in master"
+
+At this point the `docs` dir should contain:
+
+* a subdir `X.Y.Z` (named after the release version) containing the HTML documentation for
+  that version. `index.html` should should describe the release version as being *"X.Y.Z-release"*
+
+* a subdir `latest` containing the HTML documentation built from *master*. `index.html` should describe the
+  release version as being *"X.Y.Z-latest"*
+
+Push to GitHub:
+
+    $ git push origin gh-pages
+
+Upload to PyPI:
 
 ... first uploading to the test service to check everything is okay:
 
     $ git checkout <<release-branch>>
-    $ sudo python setup.py sdist register upload -r pypitest
+    $ sudo python setup.py sdist upload -r pypitest
 
 ... then going live:
 
-    $ sudo python setup.py sdist register upload -r pypi
-
-The conversion of the README alone can be checked by doing a 'register' without
-an 'upload'.
+    $ sudo python setup.py sdist upload -r pypi
