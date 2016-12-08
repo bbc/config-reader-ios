@@ -64,11 +64,16 @@ Checkout the [gh-pages](https://github.com/bbc/config-reader-ios/tree/gh-pages) 
 
 Then push the commits up to GitHub.
 
-#### 6. Upload new pod to CocoaPod repository
+#### 6. Release new CocoaPod version
 
-The process originally followed to register and setup first time was [this one](http://peterdowns.com/posts/first-time-with-pypi.html).
+The process originally followed to register and setup first time was [this one](https://code.tutsplus.com/tutorials/creating-your-first-cocoapod--cms-24332). You need to be registered with CocoaPods Trunk
+repository to be able to publish a pod. Instructions to register with CocoaPods Trunk are available [here](https://guides.cocoapods.org/making/getting-setup-with-trunk.html)
 
-For subsequent releases, do an upload to first *PyPI Test* and only if that succeeds then do an upload to *PyPI Live*.
+
+For subsequent releases, increment the version number in the PodSpec file and push the new pod version .
+
+    $ pod trunk push config-reader-ios.podspec
+
 
 - - - - -
 
@@ -86,11 +91,14 @@ synced with GitHub. The following steps will do a release "X.Y.Z"
 
 Run unit tests:
 
-    $ python tests/test_all.py
+    $ xcodebuild test -workspace Example/config-reader-ios.xcworkspace -scheme config-reader-ios-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
+    $ pod lib lint
+
 
 Also check the documentation builds:
 
-    $ python setup.py build_sphinx
+    $ cd docs
+    $ jazzy --config jazzy.yaml
 
 ... and manually review areas where it will have changed
 
@@ -146,14 +154,15 @@ First, build and copy the documentation for the release and stash it somewhere t
     Your branch is up-to-date with 'origin/master'.
     nothing to commit, working directory clean
 
-    $ python setup.py build_sphinx
-    $ cp -R build/sphinx/html /tmp/X.Y.Z
+    $ cd docs
+    $ jazzy --config jazzy.yaml
+    $ cp -R build/ /tmp/X.Y.Z
 
 Now switch back to master and do the same for the latest state of master:
 
     $ git checkout master
-    $ python setup.py build_sphinx
-    $ cp -R build/sphinx/html tmp/latest
+    $ jazzy --config jazzy.yaml
+    $ cp -R build/ tmp/latest
 
 Now switch to gh-pages and ensure it is synced with GitHub:
 
@@ -162,11 +171,11 @@ Now switch to gh-pages and ensure it is synced with GitHub:
 
 And put the new documentation builds in place:
 
-    $ cp -R /tmp/X.Y.Z docs/
+    $ cp -R /tmp/X.Y.Z docs/X.Y.Z
     $ git add docs/X.Y.Z
 
     $ git rm docs/latest
-    $ cp -R /tmp/latest docs/
+    $ cp -R /tmp/latest docs/latest
     $ git add docs/latest
 
     $ git commit -m "Updated docs for new release and latest changes in master"
@@ -174,7 +183,7 @@ And put the new documentation builds in place:
 At this point the `docs` dir should contain:
 
 * a subdir `X.Y.Z` (named after the release version) containing the HTML documentation for
-  that version. `index.html` should should describe the release version as being *"X.Y.Z-release"*
+  that version. `index.html` should describe the release version as being *"X.Y.Z-release"*
 
 * a subdir `latest` containing the HTML documentation built from *master*. `index.html` should describe the
   release version as being *"X.Y.Z-latest"*
