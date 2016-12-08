@@ -1,0 +1,25 @@
+module: config-reader-ios
+module_version: 0.1.0
+framework_root: ../config-reader-ios/Classes
+umbrella_header: "../Example/Pods/Target Support Files/config-reader-ios/config-reader-ios-umbrella.h"
+output: build
+readme: ../README.md
+head: >
+    <style type="text/css">
+        body .header {
+            background-color: #005;
+        }
+        body .header .header-col.header-col--primary {
+            background-color: #005;
+            font-weight: bold;
+        }
+    </style>
+objc: true
+clean: true
+author: RajivRamdhany
+author_url: http://bbc.co.uk/rd
+copyright: '&copy; British Broadcasting Corporation, under [Apache 2.0 open source licence](https://www.apache.org/licenses/LICENSE-2.0)'
+github_url: https://github.com/bbc/config-reader-ios
+sdk: iphonesimulator
+theme: fullwidth
+hide_documentation_coverage: true
