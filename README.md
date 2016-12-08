@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/config-reader-ios.svg?style=flat)](http://cocoapods.org/pods/config-reader-ios)
 [![Platform](https://img.shields.io/cocoapods/p/config-reader-ios.svg?style=flat)](http://cocoapods.org/pods/config-reader-ios)
 
+Am iOS framework to read configuration key-value pairs from a config file and make them globally available. The `ConfigReader` class provides the functionality to read values from a specified config file and convert them to the appropriate type.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -22,8 +24,10 @@ pod "config-reader-ios"
 
 ## Author
 
-ramdhany, nirish777@gmail.com
+Rajiv Ramdhany, rajiv.ramdhany 'at' bbc.co.uk
 
 ## License
 
-config-reader-ios is available under the MIT license. See the LICENSE file for more info.
+config-reader-ios s developed by BBC R&D and distributed under Licensed under the Apache License, [Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). 
+
+© Copyright 2016 BBC R&D. All Rights Reserved. 
