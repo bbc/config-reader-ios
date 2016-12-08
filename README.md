@@ -1,6 +1,6 @@
 # config-reader-ios
 
-[![CI Status](http://img.shields.io/travis/ramdhany/config-reader-ios.svg?style=flat)](https://travis-ci.org/ramdhany/config-reader-ios)
+[![CI Status](http://img.shields.io/travis/ramdhany/config-reader-ios.svg?style=flat)](https://travis-ci.org/bbc/config-reader-ios)
 [![Version](https://img.shields.io/cocoapods/v/config-reader-ios.svg?style=flat)](http://cocoapods.org/pods/config-reader-ios)
 [![License](https://img.shields.io/cocoapods/l/config-reader-ios.svg?style=flat)](http://cocoapods.org/pods/config-reader-ios)
 [![Platform](https://img.shields.io/cocoapods/p/config-reader-ios.svg?style=flat)](http://cocoapods.org/pods/config-reader-ios)
