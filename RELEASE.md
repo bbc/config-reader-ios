@@ -163,6 +163,7 @@ Now switch back to master and do the same for the latest state of master:
     $ git checkout master
     $ jazzy --config jazzy.yaml
     $ cp -R build/ tmp/latest
+    $ cd ..
 
 Now switch to gh-pages and ensure it is synced with GitHub:
 
@@ -192,13 +193,7 @@ Push to GitHub:
 
     $ git push origin gh-pages
 
-Upload to PyPI:
-
-... first uploading to the test service to check everything is okay:
+Upload to CocoaPods Trunk:
 
     $ git checkout <<release-branch>>
-    $ sudo python setup.py sdist upload -r pypitest
-
-... then going live:
-
-    $ sudo python setup.py sdist upload -r pypi
+    $ pod trunk push config-reader-ios.podspec
