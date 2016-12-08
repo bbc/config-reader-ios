@@ -1,0 +1,6 @@
+framework module Pods_config_reader_ios_Tests {
+  umbrella header "Pods-config-reader-ios_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module config_reader_ios {
+  umbrella header "config-reader-ios-umbrella.h"
+
+  export *
+  module * { export * }
+}
