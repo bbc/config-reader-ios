@@ -1,6 +1,0 @@
-use_frameworks!
-target 'config-reader-ios_Tests' do
-  pod 'config-reader-ios', :path => '../'
-  
-  
-end
