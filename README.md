@@ -22,6 +22,11 @@ it, simply add the following line to your Podfile:
 pod "config-reader-ios"
 ```
 
+[](---START EXCLUDE FROM DOC BUILD---)
+## Read the documentation
+The docs for this framework can be read [here](http://bbc.github.io/config-reader-ios/latest).
+[](---END EXCLUDE FROM DOC BUILD---)
+
 ## Author
 
 Rajiv Ramdhany, rajiv.ramdhany 'at' bbc.co.uk
