@@ -24,7 +24,7 @@ pod "config-reader-ios"
 
 [](---START EXCLUDE FROM DOC BUILD---)
 ## Read the documentation
-The docs for this framework can be read [here](http://bbc.github.io/config-reader-ios/latest).
+The docs for this framework can be read [here](https://bbc.github.io/config-reader-ios/docs/latest/).
 [](---END EXCLUDE FROM DOC BUILD---)
 
 ## Author
